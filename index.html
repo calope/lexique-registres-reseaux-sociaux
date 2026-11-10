@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lexique et registres dans les réseaux sociaux</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Shantell+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Idée : même structure que l'activité modèle (accueil, rubriques, carte de question),
+   avec une couleur et une typographie par registre : familier ambre, courant turquoise, soutenu violet. */
+:root{
+  --bg:#f2f0f7; --surface:#ffffff; --surface2:#e9e6f2; --ink:#1a1530; --muted:#5f5978; --line:#d9d4e8;
+  --accent:#d81e55; --on-accent:#ffffff;
+  --fam:#e79a00; --cou:#0b8f9c; --sou:#6a45e8;
+  --good:#12703f; --good-bg:#e2f5e9; --bad:#b42e25; --bad-bg:#fdebe9;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --f-fam:"Shantell Sans","Comic Sans MS","Marker Felt",cursive;
+  --f-sou:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --shadow:0 14px 40px rgba(26,21,48,.10);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#110e1d; --surface:#1b172d; --surface2:#27213f; --ink:#f2effb; --muted:#aaa3c6; --line:#372f55;
+    --accent:#ff5c84; --on-accent:#1a0710;
+    --fam:#ffc233; --cou:#3fc9d6; --sou:#a890ff;
+    --good:#6bdb9f; --good-bg:#12301f; --bad:#ff9186; --bad-bg:#3a181a;
+    --shadow:0 14px 40px rgba(0,0,0,.45);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#110e1d; --surface:#1b172d; --surface2:#27213f; --ink:#f2effb; --muted:#aaa3c6; --line:#372f55;
+  --accent:#ff5c84; --on-accent:#1a0710;
+  --fam:#ffc233; --cou:#3fc9d6; --sou:#a890ff;
+  --good:#6bdb9f; --good-bg:#12301f; --bad:#ff9186; --bad-bg:#3a181a;
+  --shadow:0 14px 40px rgba(0,0,0,.45);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;min-height:100vh;
+  background-image:radial-gradient(60rem 30rem at 100% -10%,color-mix(in srgb,var(--sou) 16%,transparent),transparent 60%),radial-gradient(50rem 28rem at -10% 110%,color-mix(in srgb,var(--fam) 14%,transparent),transparent 60%);
+  background-attachment:fixed}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{cursor:default}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.02em}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.r-fam{--c:var(--fam)}.r-cou{--c:var(--cou)}.r-sou{--c:var(--sou)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- Page d'accueil ---------- */
+.landing{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:clamp(18px,4vw,48px)}
+.landing-inner{width:min(880px,100%);background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:clamp(26px,6vw,60px);box-shadow:var(--shadow)}
+.landing h2{font-size:clamp(32px,5.6vw,56px);line-height:1.06;margin:18px 0 8px;font-weight:800}
+.subtitle span{background:linear-gradient(transparent 64%,color-mix(in srgb,var(--c) 45%,transparent) 64%)}
+.subtitle .r-fam{font-family:var(--f-fam);font-weight:700;letter-spacing:-.01em}
+.subtitle .r-cou{font-family:var(--f-display);font-weight:800}
+.subtitle .r-sou{font-size:1.2em;font-family:var(--f-sou);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.subtitle{font-size:clamp(22px,3.4vw,32px);margin:14px 0 0;line-height:1.25}
+.lead{font-size:18px;color:var(--muted);max-width:60ch;margin:12px 0 0}
+.overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:30px 0}
+.overview div{background:var(--bg);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:16px}
+.overview strong{display:block;font-family:var(--f-display);font-size:16px;margin-bottom:5px}
+.overview span{font-size:14px;color:var(--muted);line-height:1.45;display:block}
+.start{border:0;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:17px;padding:16px 26px;border-radius:14px;box-shadow:0 10px 26px color-mix(in srgb,var(--accent) 35%,transparent);transition:transform .15s}
+.start:hover{transform:translateY(-2px)}
+.small{font-size:13px;color:var(--muted)}
+.landing .small{margin:16px 0 0}
+
+/* ---------- Activité ---------- */
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.head{max-width:1000px;margin:0 auto;padding:14px clamp(16px,4vw,24px) 0}
+.home-link{background:none;border:0;padding:0;color:var(--muted);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin:6px 0 4px}
+.top h1{font-size:clamp(18px,2.8vw,25px)}
+.counter{font-size:13px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;gap:8px;align-items:center}
+.chip{background:color-mix(in srgb,var(--fam) 18%,var(--surface));border:1px solid var(--fam);border-radius:99px;padding:3px 10px;color:var(--ink)}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav button{border:0;background:none;padding:12px 14px;font-weight:700;font-size:14px;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
+nav button:disabled{opacity:.45}
+nav button.active{color:var(--ink);border-color:var(--c)}
+main{max-width:900px;margin:28px auto;padding:0 clamp(16px,4vw,20px) 60px}
+.intro{background:color-mix(in srgb,var(--c) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 40%,var(--line));border-radius:20px;padding:24px;margin-bottom:20px}
+.intro h2{font-size:clamp(26px,4vw,34px);margin:8px 0 6px}
+.intro[data-reg="fam"] h2{font-family:var(--f-fam);font-weight:700}
+.intro[data-reg="sou"] h2{font-family:var(--f-sou);font-style:italic;font-weight:400;font-size:clamp(30px,4.6vw,40px)}
+.intro p{margin:0;color:var(--muted)}
+.progress{height:8px;background:var(--surface);border-radius:20px;overflow:hidden;margin-top:18px}
+.progress div{height:100%;background:var(--c);transition:width .3s}
+.section-note{margin-top:10px;font-size:13px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,3.5vw,28px);box-shadow:var(--shadow)}
+.qmeta{display:flex;justify-content:space-between;gap:10px;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--muted)}
+.card h3{font-size:clamp(22px,3vw,28px);margin:16px 0 14px;line-height:1.15}
+.scenario{background:var(--bg);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;padding:16px;display:grid;gap:14px;margin-bottom:20px}
+.prompt{font-weight:700;font-size:17px;margin:0 0 14px}
+.ava{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--c);color:#14101f;font-weight:800;font-family:var(--f-display)}
+.who{display:flex;align-items:center;gap:10px}
+.who b{display:block;line-height:1.2}.who small{color:var(--muted);font-size:13px}
+.post{display:grid;gap:10px}
+.post .txt{font-size:18px;line-height:1.45;margin:0;white-space:pre-line}
+.post .foot{display:flex;gap:18px;color:var(--muted);font-size:13px}
+.chat{display:grid;gap:8px}
+.bub{max-width:86%;padding:10px 14px;border-radius:18px 18px 18px 5px;background:var(--surface2);font-size:17px;justify-self:start;white-space:pre-line}
+.bub.me{justify-self:end;border-radius:18px 18px 5px 18px;background:var(--accent);color:var(--on-accent)}
+.comments{display:grid;gap:10px}
+.comments .net{font-size:13px;color:var(--muted);font-weight:700}
+.comments div{display:flex;gap:10px;align-items:flex-start}
+.comments p{margin:0;background:var(--surface2);border-radius:5px 16px 16px 16px;padding:9px 13px;font-size:16.5px}
+.comments b{font-size:13px;display:block;color:var(--muted)}
+.note{margin:0;font-size:16px;white-space:pre-line}
+.choices{display:grid;gap:10px}
+.choice{width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;transition:border-color .15s,transform .15s}
+.choice:not(:disabled):hover{border-color:var(--ink);transform:translateX(3px)}
+.choice .k{flex:none;width:26px;height:26px;border-radius:8px;background:var(--surface2);display:grid;place-items:center;font-weight:800;font-size:13px}
+.choice.good{border-color:var(--good);background:var(--good-bg)}
+.choice.bad{border-color:var(--bad);background:var(--bad-bg)}
+.choice.answer{border-color:var(--good);border-style:dashed}
+.rows{display:grid;gap:12px}
+.row{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:10px}
+.row .lab{font-weight:600}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-size:15px;text-align:left}
+.opts button[aria-pressed="true"]{border-color:var(--ink);background:var(--surface2);font-weight:700}
+.opts button.good{border-color:var(--good);background:var(--good-bg)}
+.opts button.bad{border-color:var(--bad);background:var(--bad-bg)}
+.rownote{margin:0;font-size:14px;font-weight:600}
+.rownote.good{color:var(--good)}.rownote.bad{color:var(--bad)}
+.hint{font-size:14px;color:var(--muted);margin:12px 0 0}
+textarea{width:100%;min-height:120px;resize:vertical;font:inherit;font-size:17px;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-top:4px}
+.model{background:var(--bg);border:1.5px dashed var(--c);border-radius:14px;padding:14px 16px;margin-top:14px}
+.model b{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.model p{margin:6px 0 0;white-space:pre-line;font-size:17px}
+.model ul{margin:10px 0 0;padding-left:20px;color:var(--muted);font-size:15px}
+.self{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.feedback{border-radius:14px;padding:16px 18px;margin-top:12px;border:1.5px solid;animation:pop .35s ease-out}
+.feedback.good{background:var(--good-bg);border-color:var(--good)}
+.feedback.bad{background:var(--bad-bg);border-color:var(--bad)}
+.feedback h4{margin:0 0 6px;font-family:var(--f-display);font-size:18px}
+.feedback.good h4{color:var(--good)}.feedback.bad h4{color:var(--bad)}
+.feedback p{margin:6px 0 0}
+@keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:none;opacity:1}}
+.btn{border:0;background:var(--ink);color:var(--bg);border-radius:12px;padding:13px 20px;font-weight:700;min-height:46px}
+.btn.secondary{background:var(--surface2);color:var(--ink)}
+.btn.yes{background:var(--good);color:var(--good-bg)}
+.btn:disabled{opacity:.4}
+.nav-actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:24px}
+/* Résultats */
+.end .profile{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.ring{flex:none;width:128px;height:128px;border-radius:50%;background:conic-gradient(var(--fam),var(--accent),var(--sou),var(--cou),var(--fam));padding:6px}
+.ring div{width:100%;height:100%;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:25px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.end h2{font-size:clamp(24px,3.6vw,34px);margin:4px 0 6px}
+.result-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:24px 0}
+.result-grid div{background:var(--bg);border-radius:14px;padding:14px;border-top:4px solid var(--c)}
+.result-grid b{font-family:var(--f-display);font-size:24px;display:block;font-variant-numeric:tabular-nums}
+.result-grid span{font-size:13px;color:var(--muted)}
+.review-row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding:10px 0;font-size:15px}
+.review-row button{border:0;background:none;padding:0;text-align:left;text-decoration:underline;text-underline-offset:3px}
+.review-row .good{color:var(--good);font-weight:700;white-space:nowrap}.review-row .bad{color:var(--bad);font-weight:700;white-space:nowrap}.review-row .none{color:var(--muted);white-space:nowrap}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:0 16px 28px}
+@media (max-width:640px){
+  .overview,.result-grid{grid-template-columns:minmax(0,1fr)}
+  .nav-actions .btn{flex:1}
+  .opts{display:grid}
+}
+
+.nets{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0}
+.nets>span{display:inline-flex;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:6px 12px 6px 8px;font-weight:700;font-size:14px}
+.net-ic{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;font-size:12px;font-weight:800;margin-right:6px;vertical-align:-4px;line-height:1}
+.n1{background:var(--ink);color:var(--bg)}.n2{background:var(--accent);color:var(--on-accent)}.n3{background:var(--fam);color:#14101f}.n4{background:var(--bad);color:var(--bad-bg)}
+.steps{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:4px;margin-top:18px}
+.steps span{height:26px;border-radius:9px;background:var(--surface);border:1.5px solid color-mix(in srgb,var(--c) 45%,var(--line));display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums;transition:transform .3s,background .3s}
+.steps span:nth-child(5),.steps span:nth-child(10){margin-right:6px}
+.steps .good{background:var(--good);border-color:var(--good);color:var(--good-bg)}
+.steps .bad{background:var(--bad);border-color:var(--bad);color:var(--bad-bg)}
+.steps .cur{border-color:var(--ink);color:var(--ink);transform:translateY(-3px) scale(1.08);box-shadow:0 6px 14px color-mix(in srgb,var(--c) 45%,transparent);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 6px 22px color-mix(in srgb,var(--c) 80%,transparent)}}
+.chip.pts{background:var(--surface);border-color:var(--line);display:inline-block}
+.chip.bump{animation:bump .5s ease-out}
+@keyframes bump{40%{transform:scale(1.35) rotate(-4deg);background:var(--good-bg)}}
+.choice.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.choice.win{animation:win .5s ease-out}
+@keyframes win{40%{transform:scale(1.03)}}
+.fb-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.fb-head small{color:var(--muted);font-size:13px}
+.fb-ic{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:22px;font-weight:800;animation:spin .6s ease-out}
+.feedback.good .fb-ic{background:var(--good);color:var(--good-bg)}.feedback.bad .fb-ic{background:var(--bad);color:var(--bad-bg)}
+@keyframes spin{from{transform:scale(0) rotate(-180deg)}to{transform:none}}
+.feedback h4.say-fam{font-family:var(--f-fam);font-size:21px}
+.feedback h4.say-sou{font-family:var(--f-sou);font-style:italic;font-weight:400;font-size:24px}
+.feedback h4{margin:0}
+.keepbox{background:var(--surface);border-radius:10px;padding:10px 12px;border:1px dashed currentColor}
+.keepbox b{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.review-row small.keep{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--bg);padding:14px 20px;border-radius:14px;font-weight:700;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
+#toast.show{animation:toast .45s ease-out}
+@keyframes toast{from{transform:translate(-50%,30px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+@media (max-width:640px){.steps span{height:22px;font-size:10px;border-radius:7px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="toast" role="status" hidden></div>
+
+<section id="welcome" class="landing"><div class="landing-inner">
+  <div class="eyebrow">Mónica Badenes et Alexia López</div>
+  <h2>Lexique et registres dans les réseaux sociaux</h2>
+  <p class="subtitle"><span class="r-fam">Familier,</span> <span class="r-cou">courant</span> <span class="r-sou">ou soutenu ?</span></p>
+  <p class="lead">TikTok, Instagram, Snapchat, YouTube : selon la plateforme et le destinataire, les jeunes ne choisissent pas les mêmes mots. Un quiz pour décoder leur lexique et décider quel registre convient.</p>
+  <div class="nets" aria-label="Réseaux étudiés"><span><span class="net-ic n1" aria-hidden="true">♪</span>TikTok</span><span><span class="net-ic n2" aria-hidden="true">◉</span>Instagram</span><span><span class="net-ic n3" aria-hidden="true">✦</span>Snapchat</span><span><span class="net-ic n4" aria-hidden="true">▶</span>YouTube</span></div>
+  <div class="overview">
+    <div class="r-fam"><strong>01 · Registre familier</strong><span>Le parler des jeunes en ligne : abréviations, verlan, emprunts.</span></div>
+    <div class="r-cou"><strong>02 · Registre courant</strong><span>La langue claire des créateurs et des plateformes.</span></div>
+    <div class="r-sou"><strong>03 · Registre soutenu</strong><span>Communiqués, messages officiels et « traductions » solennelles.</span></div>
+  </div>
+  <button type="button" class="start" id="start">Commencer l’activité →</button>
+  <p class="small">Quiz de 15 questions · 5 par registre · 3 options par question · Correction immédiate · Résultat final sur 15</p>
+</div></section>
+
+<div id="activity" hidden>
+  <header><div class="head">
+    <button type="button" class="home-link" id="home">← Retour à l’accueil</button>
+    <div class="top"><div><div class="eyebrow">Mónica Badenes et Alexia López</div><h1>Lexique et registres dans les réseaux sociaux</h1></div><div class="counter"><span class="chip" id="streak" hidden></span><span class="chip pts" id="pts"></span><span id="total"></span></div></div>
+    <nav id="tabs" aria-label="Rubriques"></nav>
+  </div></header>
+  <main>
+    <section class="intro" id="intro"><div class="eyebrow" id="sectiontag"></div><h2 id="sectiontitle"></h2><p id="sectiondesc"></p><div class="steps" id="steps" aria-hidden="true"></div><div class="section-note" id="progresslabel"></div></section>
+    <div id="stage" aria-live="polite"></div>
+  </main>
+  <footer>Lexique et registres dans les réseaux sociaux · Mónica Badenes et Alexia López</footer>
+</div>
+
+<script>
+const SECTIONS=[
+ {reg:'fam',title:'Registre familier',desc:'Le parler des jeunes sur TikTok, Snapchat et Instagram : abréviations, verlan, emprunts à l’anglais et à l’arabe.'},
+ {reg:'cou',title:'Registre courant',desc:'La langue claire et neutre des créateurs qui s’adressent à toute leur communauté.'},
+ {reg:'sou',title:'Registre soutenu',desc:'Communiqués, messages officiels et « traductions en langage soutenu » : quand les réseaux haussent le ton.'}
+];
+const Q=[
+ /* ---------- REGISTRE FAMILIER ---------- */
+ {s:0,t:'single',kind:'QUIZ',title:"La rumeur du jour",
+  scene:[{k:'chat',name:"Maël",net:"Snapchat · conversation",m:[['them',"T’as vu sa story ? Askip il a un crush sur Inès 👀"],['me',"Sah ?? Jpp 😭"]]}],
+  prompt:"Que signifie « askip » dans ce message ?",
+  opts:["« À ce qu’il paraît » : on rapporte une rumeur.","« À ce qu’il lui plaît » : il fait ce qu’il veut.","« Ah, ce qu’il est pénible ! »"],right:0,
+  explain:"« Askip » abrège « à ce qu’il paraît ». « Un crush » (emprunt à l’anglais) désigne la personne pour qui l’on a un coup de cœur, « sah » (emprunt à l’arabe) veut dire « vraiment, sérieusement » et « jpp » abrège « j’en peux plus ». L’émoji 😭 marque ici le rire ou la stupeur, pas la tristesse."},
+ {s:0,t:'single',kind:'QUIZ',title:"Le dico des abréviations",
+  scene:[{k:'chat',name:"Yanis",net:"Snapchat · conversation",m:[['them',"Dsl jsuis en retard, jsp si j’arrive avant le début du live"],['me',"Tkt bg, on t’attend"],['them',"Ptdr merci 😭"]]}],
+  prompt:"Que signifient, dans l’ordre, « jsp », « tkt » et « ptdr » ?",
+  opts:["« J’espère », « tu connais tout », « pas terrible du reste ».","« Je suis prêt », « tout est compris », « petit dernier ».","« Je sais pas », « t’inquiète », « pété de rire »."],right:2,
+  explain:"Ces abréviations gardent les consonnes ou les initiales des mots : rapides à taper, elles sont typiques de l’écrit familier des messageries. « Dsl » signifie « désolé(e) » et « bg », « beau gosse », sert aussi d’appellatif amical, comme ici."},
+ {s:0,t:'single',kind:'QUIZ',title:"D’où vient « chelou » ?",
+  scene:[{k:'comments',net:"TikTok · commentaires",list:[["lina.rct","Wesh c’est trop chelou cette trend"],["tom_bzh","Cringe 💀"],["sarah.mp4","Je l’ai vue sur Insta aussi"]]}],
+  prompt:"« Chelou » vient du mot « louche ». Par quel procédé a-t-il été formé ?",
+  opts:["Un emprunt à l’anglais.","Le verlan : on inverse les syllabes du mot.","La troncation : on coupe la fin du mot."],right:1,
+  explain:"Le verlan (« l’envers ») inverse les syllabes : louche → chelou, fou → ouf, énervé → vénère. Les autres commentaires illustrent d’autres sources du parler jeune : « cringe » (gênant) est emprunté à l’anglais, « wesh » à l’arabe maghrébin, et « Insta » est la troncation d’« Instagram »."},
+ {s:0,t:'single',kind:'QUIZ · ENQUÊTE',title:"Enquête : le commentaire codé",
+  scene:[{k:'comments',net:"YouTube · commentaires",list:[["emma_2k7","Le glow up de fou 😭 elle a trop d’aura maintenant. Cette vidéo, c’est une masterclass 🔥"]]},{k:'note',text:"Indice 1 : en anglais, « to glow » signifie « briller ».\nIndice 2 : l’émoji 🔥 accompagne souvent un compliment.\nIndice 3 : au sens premier, une « masterclass » est un cours donné par un grand spécialiste."}],
+  prompt:"Quel avis l’auteur du commentaire exprime-t-il ?",
+  opts:["Il se moque : la créatrice a mal vieilli et la vidéo est trop longue.","Il admire : la créatrice s’est métamorphosée, elle a du charisme et la vidéo est excellente.","Il réclame un tutoriel de maquillage."],right:1,
+  explain:"Un « glow up » est une transformation réussie, « avoir de l’aura » signifie avoir du charisme, de la prestance, et « une masterclass » désigne une performance exemplaire. Des mots existants prennent ainsi un sens nouveau sur les réseaux : pour les comprendre, on s’appuie sur le contexte."},
+ {s:0,t:'single',kind:'QUIZ',title:"La grammaire du familier",
+  scene:[{k:'post',name:"Noa",handle:"@noa_dsn · TikTok",text:"Frérot j’étais en mode choqué, y avait personne à mon live 😭 j’ai trop le seum"}],
+  prompt:"Quels indices signalent ici le registre familier ?",
+  opts:["Le passé simple et l’inversion du sujet.","Le vouvoiement et les formules de politesse.","Le lexique (« frérot », « avoir le seum »), le tic « en mode » et la syntaxe : « y avait personne », sans « il » ni « ne »."],right:2,
+  explain:"Le registre familier ne tient pas qu’au vocabulaire. « Avoir le seum » signifie être dégoûté ou frustré ; « en mode » introduit une attitude. Côté syntaxe, « il n’y avait personne » devient « y avait personne ». En registre courant : « J’étais choqué : il n’y avait personne à mon direct, je suis vraiment déçu. »"},
+
+ /* ---------- REGISTRE COURANT ---------- */
+ {s:1,t:'single',kind:'QUIZ',title:"Anglicisme ou mot français ?",
+  scene:[{k:'note',text:"Dans leurs vidéos, les créateurs disent « follower », « live » ou « hashtag ». Le registre courant dispose aussi de mots français, proposés en France ou au Québec."}],
+  prompt:"Quels sont, dans l’ordre, les équivalents français de « follower », « live » et « hashtag » ?",
+  opts:["Abonné, direct, mot-dièse.","Suiveur, vivant, mot-croisé.","Ami, différé, étiquette."],right:0,
+  explain:"« Abonné », « direct » et « mot-dièse » font partie des équivalents proposés par les organismes officiels de terminologie ; au Québec, on dit aussi « mot-clic » pour hashtag, et « infox » remplace « fake news ». Dans l’usage, anglicismes et équivalents coexistent : le choix dépend du public et du registre."},
+ {s:1,t:'single',kind:'QUIZ · DÉCISION',title:"La fin de la vidéo",
+  scene:[{k:'note',text:"Une youtubeuse termine une vidéo regardée par un public très large : collégiens, étudiants, parents. Elle veut être comprise de tout le monde."}],
+  prompt:"Quelle phrase de conclusion correspond au registre courant ?",
+  opts:["Wesh la mif, lâchez un like et abonnez-vous, ça fait trop plaiz !","Si la vidéo vous a plu, pensez à vous abonner et à activer les notifications. À bientôt !","Je vous saurais gré de bien vouloir souscrire à la présente chaîne."],right:1,
+  explain:"Le registre courant emploie des mots compris de tous, des phrases complètes et un ton neutre : c’est celui que choisissent la plupart des créateurs pour parler à toute leur communauté. La première phrase, familière (« la mif » = la famille, en verlan), convient entre proches ; la troisième, soutenue, sonne faux dans ce contexte."},
+ {s:1,t:'single',kind:'QUIZ',title:"Du commentaire familier au courant",
+  scene:[{k:'comments',net:"Instagram · commentaires",list:[["max.vlog","Franchement ta vidéo elle est trop stylée, j’ai kiffé de ouf !"]]}],
+  prompt:"Quelle reformulation exprime la même idée en registre courant ?",
+  opts:["Wsh ta vidéo c’est une masterclass, validé 🔥","Votre œuvre m’a procuré un ravissement sans pareil.","Sincèrement, ta vidéo est très réussie. Elle m’a beaucoup plu !"],right:2,
+  explain:"Passer du familier au courant, ce n’est pas tout changer : on remplace le lexique marqué (kiffer → aimer, plaire ; stylé → réussi), on supprime la reprise « ta vidéo, elle… » et on garde l’intention du message. La première option reste familière ; la deuxième bascule dans le soutenu."},
+ {s:1,t:'single',kind:'QUIZ',title:"Un sens, trois mots",
+  scene:[{k:'note',text:"Sur les réseaux, une même idée peut s’exprimer par trois verbes : « kiffer », « aimer » et « affectionner »."}],
+  prompt:"Quel classement va du plus familier au plus soutenu ?",
+  opts:["Kiffer → aimer → affectionner.","Aimer → kiffer → affectionner.","Affectionner → aimer → kiffer."],right:0,
+  explain:"« Aimer » est le mot courant, neutre, utilisable partout. « Kiffer » (emprunté à l’arabe) est familier ; « affectionner » est soutenu. On retrouve la même échelle avec « bosser → travailler → œuvrer » : le registre courant est celui du milieu, compris de tous."},
+ {s:1,t:'single',kind:'QUIZ · DÉCISION',title:"Dans la peau d’un community manager",
+  scene:[{k:'comments',net:"Instagram · commentaire sous une publication",list:[["camille_dvx","Ma commande n’est toujours pas arrivée après trois semaines. C’est inadmissible."]]},{k:'note',text:"Vous gérez le compte de la marque (fictive) Maison Lumen. Votre réponse sera visible par tout le monde."}],
+  prompt:"Quelle réponse publiez-vous ?",
+  opts:["Oups, pas de bol 😅 Ça arrive, tkt !","Bonjour Camille, nous sommes désolés pour ce retard. Pouvez-vous nous envoyer votre numéro de commande en message privé ? Nous nous en occupons tout de suite.","Madame, nous accusons réception de votre doléance, laquelle sera instruite par nos services dans les meilleurs délais."],right:1,
+  explain:"La deuxième réponse associe politesse, clarté et proximité : un registre courant, adapté à un échange public avec une cliente mécontente. La première minimise le problème avec un ton trop familier ; la troisième, très administrative, crée de la distance. Choisir un registre, c’est aussi gérer une relation."},
+
+ /* ---------- REGISTRE SOUTENU ---------- */
+ {s:2,t:'single',kind:'QUIZ',title:"La tendance « en langage soutenu »",
+  scene:[{k:'note',text:"Sur TikTok, un jeu consiste à « traduire » le parler jeune en langage soutenu, pour rire."},{k:'comments',net:"Phrase à traduire",list:[["leo.mrt","J’ai le seum, je me suis fait ghoster."]]}],
+  prompt:"Quelle est la « traduction » en registre soutenu ?",
+  opts:["J’en conçois une vive amertume : mes messages sont demeurés sans réponse.","Je suis dégoûté, il ne me répond plus.","Trop la haine, il m’a mis un vent."],right:0,
+  explain:"Le comique naît du décalage : un contenu banal dans une forme solennelle. Le registre soutenu se reconnaît à son lexique rare (« concevoir de l’amertume », « demeurer ») et à ses phrases construites. La deuxième option est en registre courant ; la troisième reste familière (« mettre un vent » = ignorer quelqu’un)."},
+ {s:2,t:'single',kind:'QUIZ',title:"Le communiqué du youtubeur",
+  scene:[{k:'post',name:"Maxou",handle:"@maxou_gaming · YouTube, onglet Communauté",text:"Je tiens à présenter mes plus sincères excuses à celles et ceux que mes propos ont pu heurter. Je mesure pleinement la portée de mes paroles."},{k:'note',text:"D’habitude, ce créateur (fictif) commence ses vidéos par « Wesh la mif, bien ou quoi ? »."}],
+  prompt:"Pourquoi abandonne-t-il son registre habituel ?",
+  opts:["Parce que le registre soutenu est obligatoire sur YouTube.","Pour marquer la gravité du moment et montrer du respect à son public.","Parce qu’il a oublié comment on parle familièrement."],right:1,
+  explain:"Changer de registre est un acte de communication : en passant au soutenu, le créateur signale que le moment est sérieux. Le lexique (« présenter ses excuses », « heurter », « mesurer la portée ») et la syntaxe soignée participent au message autant que son contenu."},
+ {s:2,t:'single',kind:'QUIZ',title:"Les marques du soutenu",
+  scene:[{k:'post',name:"Bibliothèque universitaire",handle:"@bu_campus · Instagram",text:"Nous vous saurions gré de bien vouloir signaler tout commentaire injurieux. Nous vous remercions de votre vigilance."}],
+  prompt:"Quels indices signalent ici le registre soutenu ?",
+  opts:["Les abréviations et les émojis.","Le verlan et les anglicismes.","La locution « savoir gré », le conditionnel de politesse et le vouvoiement."],right:2,
+  explain:"« Savoir gré à quelqu’un de quelque chose » (lui en être reconnaissant) est une locution du registre soutenu ; elle se conjugue avec « savoir » : « nous vous saurions gré », et non « nous vous serions gré ». Le conditionnel et « bien vouloir » adoucissent la demande. En registre courant : « Merci de signaler les commentaires injurieux. »"},
+ {s:2,t:'single',kind:'QUIZ · DÉCISION',title:"Écrire à sa professeure",
+  scene:[{k:'chat',name:"Brouillon de message",net:"Message privé",m:[['me',"Slt, jpeux rendre le devoir + tard ? Jsuis sous l’eau en ce moment 🙏"]]},{k:'note',text:"Problème : ce message est destiné à votre professeure, Mme Durand."}],
+  prompt:"Quelle version relève du registre soutenu, le plus adapté à cette destinataire ?",
+  opts:["Wesh Madame, un petit délai pour le devoir svp 🙏","Bonjour Madame, vous serait-il possible de m’accorder un délai supplémentaire pour la remise du devoir ? Je vous remercie par avance de votre compréhension. Bien cordialement.","Bonjour, est-ce que je peux rendre le devoir plus tard ? Merci !"],right:1,
+  explain:"« Être sous l’eau » (être débordé) et les abréviations conviennent entre amis. La troisième option, en registre courant, est correcte mais un peu directe. Le registre soutenu ajoute une formule d’appel, le vouvoiement, une demande au conditionnel (« vous serait-il possible… ») et une formule de politesse finale."},
+ {s:2,t:'single',kind:'QUIZ · DÉFI FINAL',title:"Le grand défi final : à chaque public son registre",
+  scene:[{k:'note',text:"Une association étudiante annonce sa soirée de rentrée à trois publics différents."},{k:'note',text:"Message 1 : « L’association organise sa soirée de rentrée vendredi à 20 h. Inscrivez-vous grâce au lien en bio ! »\n\nMessage 2 : « Nous avons l’honneur de vous convier à la soirée de rentrée de l’association, qui se tiendra vendredi à 20 heures. »\n\nMessage 3 : « Soirée de l’asso vendredi, ça va être une dinguerie, ramenez-vous la mif 🔥 »"}],
+  prompt:"Quel classement est correct ?",
+  opts:["Message 1 : courant · Message 2 : soutenu · Message 3 : familier.","Message 1 : familier · Message 2 : courant · Message 3 : soutenu.","Message 1 : soutenu · Message 2 : familier · Message 3 : courant."],right:0,
+  explain:"Le message 1 convient au compte Instagram de l’association, le 2 à une invitation adressée au doyen, le 3 à une story entre amis. Aucun registre n’est « meilleur » en soi : le bon registre est celui qui convient à la situation, au destinataire et à l’objectif."}
+];
+const N=Q.length;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const calm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+let st={cur:0,ans:{},pend:{},started:false,done:false,streak:0};
+let confirmRestart=false,lastXY=null;
+
+const has=i=>Object.prototype.hasOwnProperty.call(st.ans,i);
+const ok=i=>{if(!has(i))return false;const q=Q[i],a=st.ans[i];
+  if(q.t==='single')return a===q.right;
+  if(q.t==='match')return q.rows.every((r,j)=>a[j]===r[1]);
+  return !!a.ok};
+const score=()=>Q.reduce((n,q,i)=>n+(ok(i)?1:0),0);
+const answered=()=>Q.reduce((n,q,i)=>n+(has(i)?1:0),0);
+const frontier=()=>{for(let i=0;i<N;i++)if(!has(i))return i;return N-1};
+
+/* ----- En-tête et rubrique ----- */
+function header(){
+  const q=Q[st.cur],sec=SECTIONS[q.s];
+  $('#tabs').innerHTML=SECTIONS.map((s,i)=>{const d=Q.filter((x,j)=>x.s===i&&has(j)).length;
+    return `<button type="button" data-tab="${i}" ${i*5>frontier()?'disabled':''} class="r-${s.reg} ${q.s===i?'active':''}">${esc(s.title)} (${d}/5)</button>`}).join('');
+  const intro=$('#intro');intro.className='intro r-'+sec.reg;intro.dataset.reg=sec.reg;
+  $('#sectiontag').textContent=`Registre ${q.s+1} / 3`;
+  $('#sectiontitle').textContent=sec.title;$('#sectiondesc').textContent=sec.desc;
+  $('#total').textContent=`${answered()} / ${N} réponses enregistrées`;
+  $('#steps').innerHTML=Q.map((x,k)=>`<span class="r-${SECTIONS[x.s].reg} ${has(k)?(ok(k)?'good':'bad'):''} ${!st.done&&k===st.cur?'cur':''}">${has(k)?(ok(k)?'✓':'✕'):k+1}</span>`).join('');$('#pts').textContent='★ '+score()+' pt'+(score()>1?'s':'');
+  $('#progresslabel').textContent=st.done?`Parcours terminé · ${answered()} réponses enregistrées`:`Question ${st.cur+1} sur ${N} · ${answered()} réponses enregistrées`;
+  const sk=$('#streak');sk.hidden=st.streak<2;sk.textContent='Série de '+st.streak+' 🔥';
+}
+
+const X=[
+ {why:["","« Askip » n’a aucun rapport avec « plaire » : il sert à rapporter une information incertaine.","Rien n’indique l’agacement : le message relaie une rumeur."],keep:"askip = à ce qu’il paraît · un crush = un coup de cœur · sah = vraiment"},
+ {why:["Ces développements sont inventés : « jsp » ne contient pas le verbe « espérer ».","Inventé aussi : relisez la conversation, Yanis ne sait pas s’il arrivera à temps.",""],keep:"jsp = je sais pas · tkt = t’inquiète · ptdr = pété de rire · dsl = désolé"},
+ {why:["« Louche » est un mot français : c’est « cringe » qui vient de l’anglais.","","La troncation coupe le mot (Instagram → Insta) ; ici, les syllabes sont inversées."],keep:"verlan : louche → chelou, fou → ouf · emprunt : cringe · troncation : Insta"},
+ {why:["L’émoji 🔥 et le mot « masterclass » sont des marques d’admiration, pas de moquerie.","","« Masterclass » n’a plus ici son sens de « cours » : il qualifie la vidéo elle-même."],keep:"un glow up = une transformation réussie · avoir de l’aura = avoir du charisme · une masterclass = une réussite exemplaire"},
+ {why:["Le passé simple et l’inversion appartiennent au registre soutenu ; le message n’en contient pas.","Noa tutoie son interlocuteur et n’emploie aucune formule de politesse.",""],keep:"avoir le seum = être dégoûté · « y avait personne » = il n’y avait personne"},
+ {why:["","Ce sont des traductions mot à mot : « suiveur » et « vivant » ne s’emploient pas dans ce sens.","« Différé » est le contraire de « direct », et un follower n’est pas forcément un ami."],keep:"follower = abonné · live = direct · hashtag = mot-dièse (mot-clic au Québec)"},
+ {why:["« Wesh », « la mif » et « plaiz » sont familiers : une partie du public ne les comprendrait pas.","","« Je vous saurais gré » et « souscrire à la présente chaîne » sont soutenus, trop solennels pour une vidéo."],keep:"registre courant = mots compris de tous, phrases complètes, ton neutre"},
+ {why:["« Wsh », « masterclass » et « validé » restent du registre familier.","Le vouvoiement et « ravissement sans pareil » relèvent du soutenu : on a dépassé le courant.",""],keep:"kiffer → aimer, plaire · stylé → réussi · de ouf → beaucoup"},
+ {why:["","« Kiffer » est le plus familier des trois : il doit venir en premier.","C’est l’ordre inverse : du plus soutenu au plus familier."],keep:"kiffer (familier) → aimer (courant) → affectionner (soutenu)"},
+ {why:["Le ton est trop familier : il minimise le problème d’une cliente mécontente.","","Correct mais très administratif : « doléance » et « instruite » créent de la distance."],keep:"sur un compte de marque : registre courant, poli et précis"},
+ {why:["","C’est une bonne reformulation, mais en registre courant, pas soutenu.","« Trop la haine » et « mettre un vent » sont familiers."],keep:"avoir le seum → concevoir de l’amertume · se faire ghoster → rester sans réponse"},
+ {why:["Aucune plateforme n’impose un registre : c’est le créateur qui choisit.","","Il n’a rien oublié : il adapte volontairement son registre à la situation."],keep:"changer de registre, c’est aussi envoyer un message : ici, le sérieux et le respect"},
+ {why:["Le message ne contient ni abréviation ni émoji.","Verlan et anglicismes sont des marques du familier, absentes ici.",""],keep:"« nous vous saurions gré de… » = nous vous serions reconnaissants de…"},
+ {why:["« Wesh », « svp » et l’émoji restent familiers, même avec « Madame ».","","C’est du registre courant : poli, mais sans conditionnel ni formule de politesse développée."],keep:"soutenu = formule d’appel + vouvoiement + conditionnel + formule de politesse"},
+ {why:["","« Dinguerie » et « la mif » (message 3) sont familiers ; « nous avons l’honneur de vous convier » (message 2) est soutenu.","Le message 1 emploie des mots simples et neutres : c’est du courant, pas du soutenu."],keep:"le bon registre dépend du destinataire, de la situation et de l’objectif"}
+];
+const CHEER={
+ fam:{good:["Masterclass ! 🔥","Trop fort, t’as capté !","Validé ✅"],bad:["Raté… mais tkt, c’est comme ça qu’on apprend !","Pas grave, ça arrive !"],lab:"dit en registre familier"},
+ cou:{good:["Bravo, bonne réponse !","Exact, bien joué !","Très bien !"],bad:["Pas tout à fait, mais vous progressez.","Ce n’est pas encore ça : l’explication va vous aider."],lab:"dit en registre courant"},
+ sou:{good:["Toutes nos félicitations !","Voilà qui est remarquable !","Nous vous en félicitons vivement."],bad:["Hélas, tel n’est point le cas… Persévérez !","Nulle erreur n’est vaine : voyez plutôt."],lab:"dit en registre soutenu"}
+};
+const NETS=[['TikTok','♪','n1'],['Instagram','◉','n2'],['Snapchat','✦','n3'],['YouTube','▶','n4']];
+function net(t){const n=NETS.find(x=>t.indexOf(x[0])>=0);return (n?`<span class="net-ic ${n[2]}" aria-hidden="true">${n[1]}</span>`:'')+esc(t)}
+let justAnswered=false,toastTimer=0;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;t.classList.remove('show');void t.offsetWidth;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.hidden=true},4200)}
+function feedback(q,good){
+  const i=st.cur,a=st.ans[i],reg=SECTIONS[q.s].reg,ch=CHEER[reg],list=good?ch.good:ch.bad,head=list[i%list.length];
+  return `<div class="feedback ${good?'good':'bad'}" role="status"><div class="fb-head"><span class="fb-ic">${good?'✓':'↻'}</span><div><h4 class="say-${reg}">${esc(head)}</h4><small>${good?'Bonne réponse':'Ce n’était pas la bonne réponse'} · ${ch.lab}</small></div></div>`
+   +(!good?`<p><strong>Pourquoi pas cette réponse ?</strong> ${esc(X[i].why[a]||'')}</p><p><strong>La bonne réponse :</strong> ${esc(q.opts[q.right])}</p>`:'')
+   +`<p><strong>Le saviez-vous ?</strong> ${esc(q.explain)}</p><p class="keepbox"><b>À retenir</b>${esc(X[i].keep)}</p></div>`;
+}
+
+/* ----- Scènes ----- */
+function sceneHTML(q){
+  return q.scene.map(it=>{
+    if(it.k==='chat')return `<div class="chat"><div class="who"><span class="ava">${esc(it.name[0])}</span><div><b>${esc(it.name)}</b><small>${net(it.net||'Messagerie')}</small></div></div>${it.m.map(m=>`<div class="bub ${m[0]==='me'?'me':''}">${esc(m[1])}</div>`).join('')}</div>`;
+    if(it.k==='post')return `<div class="post"><div class="who"><span class="ava">${esc(it.name[0])}</span><div><b>${esc(it.name)}</b><small>${net(it.handle)}</small></div></div><p class="txt">${esc(it.text)}</p><div class="foot"><span>♡ 1,2 k</span><span>💬 87</span><span>↗ Partager</span></div></div>`;
+    if(it.k==='comments')return `<div class="comments"><span class="net">${net(it.net||'Commentaires')}</span>${it.list.map(c=>`<div><span class="ava">${esc(c[0][0].toUpperCase())}</span><p><b>@${esc(c[0])}</b>${esc(c[1])}</p></div>`).join('')}</div>`;
+    return `<p class="note">${esc(it.text)}</p>`;
+  }).join('');
+}
+/* ----- Question ----- */
+function render(){
+  st.done=false;header();
+  const i=st.cur,q=Q[i],a=st.ans[i],done=has(i),sec=SECTIONS[q.s];
+  let h=`<article class="card r-${sec.reg}"><div class="qmeta"><span>QUESTION ${i+1} / ${N}</span><span>${esc(q.kind)}</span></div><h3>${esc(q.title)}</h3><div class="scenario">${sceneHTML(q)}</div><p class="prompt">${esc(q.prompt)}</p>`;
+  if(q.t==='single'){
+    h+='<div class="choices">'+q.opts.map((o,j)=>{
+      let c='';if(done){if(a===j)c=ok(i)?'good'+(justAnswered?' win':''):'bad'+(justAnswered?' shake':'');else if(j===q.right)c='answer'}
+      return `<div><button type="button" class="choice ${c}" data-choice="${j}" ${done?'disabled':''} aria-pressed="${done&&a===j}"><span class="k">${String.fromCharCode(65+j)}</span><span>${esc(o)}</span></button>${done&&a===j?feedback(q,ok(i)):''}</div>`}).join('')+'</div>';
+  }else if(q.t==='match'){
+    const sel=done?a:(st.pend[i]||{});
+    h+='<div class="rows">'+q.rows.map((r,j)=>`<div class="row"><div class="lab">${j+1}. ${esc(r[0])}</div><div class="opts">${q.options.map((o,k)=>`<button type="button" data-row="${j}" data-opt="${k}" aria-pressed="${sel[j]===o}" class="${done&&sel[j]===o?(o===r[1]?'good':'bad'):''}" ${done?'disabled':''}>${esc(o)}</button>`).join('')}</div>${done?`<p class="rownote ${sel[j]===r[1]?'good':'bad'}">${sel[j]===r[1]?'✓ Bonne association.':'✕ Réponse attendue : '+esc(r[1])}</p>`:''}</div>`).join('')+'</div>';
+    h+=done?feedback(q,ok(i)):'<p class="hint">Sélectionnez une réponse pour chaque ligne : la correction apparaît automatiquement lorsque toutes les lignes sont remplies.</p>';
+  }else{
+    const p=done?a:(st.pend[i]||{text:'',shown:false});
+    h+=`<label class="small" for="write${i}">Votre version</label><textarea id="write${i}" data-write="1" ${done||p.shown?'readonly':''} placeholder="Écrivez ici votre reformulation…">${esc(p.text||'')}</textarea>`;
+    if(!done&&!p.shown)h+=`<div class="self"><button type="button" class="btn" data-action="compare">Comparer avec une proposition</button></div><p class="hint" id="whint">Rédigez d’abord votre version, seul·e ou à deux : il n’y a pas une seule bonne réponse.</p>`;
+    if(done||p.shown)h+=`<div class="model"><b>Une proposition possible</b><p>${esc(q.model)}</p><ul>${q.criteria.map(c=>`<li>${esc(c)}</li>`).join('')}</ul></div>`;
+    if(!done&&p.shown)h+=`<p class="hint">Votre version respecte-t-elle les trois critères ? Évaluez-vous honnêtement.</p><div class="self"><button type="button" class="btn yes" data-self="1">✓ Oui, objectif atteint</button><button type="button" class="btn secondary" data-self="0">↻ Pas encore</button></div>`;
+    if(done)h+=feedback(q,ok(i));
+  }
+  h+=`<div class="nav-actions"><button type="button" class="btn secondary" data-action="prev" ${i===0?'disabled':''}>← Précédent</button><button type="button" class="btn" data-action="next" ${done?'':'disabled'}>${i===N-1?'Voir mon résultat →':'Question suivante →'}</button></div>
+  <p class="section-note">Choisissez une réponse pour passer à la question suivante. Vous pouvez toujours revenir en arrière pour relire une correction.</p></article>`;
+  $('#stage').innerHTML=h;
+}
+function settle(i){ if(ok(i)){st.streak++;celebrate()}else st.streak=0; justAnswered=true;render();justAnswered=false;
+  const p=$('#pts');p.classList.remove('bump');void p.offsetWidth;if(ok(i))p.classList.add('bump');
+  if(ok(i)&&st.streak>=3)toast('Série de '+st.streak+' bonnes réponses 🔥'); }
+function go(i){st.cur=Math.min(frontier(),Math.max(0,i));render();window.scrollTo(0,0)}
+
+/* ----- Résultats ----- */
+function results(){
+  st.done=true;confirmRestart=false;header();
+  const t=score(),skipped=N-answered();
+  const lvl=t>=12?"Bravo, vous passez d’un registre à l’autre sans effort !":t>=8?"Beau parcours ! Encore quelques codes à apprivoiser.":"Merci pour votre participation ! Relisez les explications : tout y est.";
+  $('#stage').innerHTML=`<article class="card end"><div class="profile"><div class="ring"><div><span><span id="count">0</span> / ${N}</span></div></div><div><div class="eyebrow">Votre parcours est terminé</div><h2>Votre résultat final</h2><p style="margin:0"><strong>${esc(lvl)}</strong></p><p class="small" style="margin:6px 0 0;font-size:15px">Vous avez obtenu ${Math.round(t/N*100)} % de bonnes réponses.${skipped?' '+skipped+' question(s) sans réponse.':''}</p></div></div>
+  <div class="result-grid">${SECTIONS.map((s,i)=>`<div class="r-${s.reg}"><b>${Q.reduce((n,q,j)=>n+(q.s===i&&ok(j)?1:0),0)} / 5</b><span>${esc(s.title)}</span></div>`).join('')}</div>
+  <h3>Votre lexique à retenir</h3><p class="small" style="margin:4px 0 10px">Les questions manquées sont celles à réviser en priorité : cliquez sur un titre pour relire sa correction.</p><div>${Q.map((q,i)=>`<div class="review-row"><div><button type="button" data-review="${i}">${i+1}. ${esc(q.title)}</button><small class="keep">${esc(X[i].keep)}</small></div><span class="${!has(i)?'none':ok(i)?'good':'bad'}">${!has(i)?'— Non répondu':ok(i)?'✓ Correct':'✕ Incorrect'}</span></div>`).join('')}</div>
+  <div class="nav-actions"><button type="button" class="btn secondary" data-review="${N-1}">← Revoir la dernière question</button><button type="button" class="btn" data-action="restart">Recommencer</button></div></article>`;
+  window.scrollTo(0,0);
+  const el=$('#count');
+  if(calm){el.textContent=t}else{let n=0;const iv=setInterval(()=>{el.textContent=n;if(n>=t)clearInterval(iv);n++},70);
+    if(t>=8)burst(innerWidth/2,innerHeight*0.3,t>=12?140:70)}
+}
+
+/* ----- Événements ----- */
+$('#start').addEventListener('click',()=>{st.started=true;$('#welcome').hidden=true;$('#activity').hidden=false;if(st.done)results();else go(st.cur)});
+$('#home').addEventListener('click',()=>{st.started=false;$('#activity').hidden=true;$('#welcome').hidden=false;window.scrollTo(0,0)});
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(Number(b.dataset.tab)*5)});
+$('#stage').addEventListener('input',e=>{if(e.target.dataset.write){const p=st.pend[st.cur]||{text:'',shown:false};p.text=e.target.value;st.pend[st.cur]=p}});
+$('#stage').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b||b.disabled)return;
+  lastXY=[e.clientX||innerWidth/2,e.clientY||innerHeight/2];
+  const d=b.dataset,i=st.cur,q=Q[i];
+  if(d.action!=='restart')confirmRestart=false;
+  if(d.choice!==undefined){if(has(i))return;st.ans[i]=Number(d.choice);settle(i)}
+  else if(d.row!==undefined){if(has(i))return;const p=st.pend[i]||{};p[d.row]=q.options[Number(d.opt)];st.pend[i]=p;
+    if(q.rows.every((r,j)=>p[j]!==undefined)){st.ans[i]=Object.assign({},p);settle(i)}else render()}
+  else if(d.action==='compare'){const p=st.pend[i]||{text:'',shown:false};
+    if((p.text||'').trim().length<10){const hint=$('#whint');if(hint){hint.textContent='Écrivez d’abord votre version (au moins quelques mots) avant de comparer.';hint.style.color='var(--bad)'}return}
+    p.shown=true;st.pend[i]=p;render()}
+  else if(d.self!==undefined){const p=st.pend[i]||{text:''};st.ans[i]={text:p.text||'',ok:d.self==='1'};settle(i)}
+  else if(d.review!==undefined)go(Number(d.review))
+  else if(d.action==='prev')go(i-1)
+  else if(d.action==='next'){if(!has(i))return;if(i===N-1)results();else{go(i+1);if(i%5===4){const s=Q[i].s,n=Q.reduce((t,x,k)=>t+(x.s===s&&ok(k)?1:0),0);toast(SECTIONS[s].title+' terminé : '+n+' / 5 · '+SECTIONS[s+1].title+' débloqué 🔓');burst(innerWidth/2,innerHeight*0.35,60)}}}
+  else if(d.action==='restart'){if(!confirmRestart){confirmRestart=true;b.textContent='Confirmer : effacer mes réponses'}
+    else{st.ans={};st.pend={};st.streak=0;confirmRestart=false;go(0)}}
+});
+
+/* ----- Confettis : cœurs, dièses et arobases ----- */
+const cv=$('#fx'),cx=cv.getContext('2d');let parts=[],raf=0;
+function burst(x,y,n){
+  if(calm||!cx)return;cv.width=innerWidth;cv.height=innerHeight;
+  const cs=getComputedStyle(document.documentElement),cols=['--fam','--cou','--sou','--accent'].map(v=>cs.getPropertyValue(v).trim()||'#d81e55'),gl=['♥','#','@','♥','!'];
+  for(let k=0;k<n;k++){const a=Math.random()*Math.PI*2,sp=3+Math.random()*7;
+    parts.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-4,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[k%cols.length],g:gl[k%gl.length],s:14+Math.random()*14,life:60+Math.random()*40})}
+  if(!raf)raf=requestAnimationFrame(tick);
+}
+function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts=parts.filter(p=>p.life>0);
+  for(const p of parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.28;p.vx*=.985;p.r+=p.vr;p.life--;
+    cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.globalAlpha=Math.min(1,p.life/30);cx.fillStyle=p.c;cx.font='800 '+p.s+'px sans-serif';cx.textAlign='center';cx.fillText(p.g,0,0);cx.restore()}
+  if(parts.length)raf=requestAnimationFrame(tick);else{raf=0;cx.clearRect(0,0,cv.width,cv.height)}
+}
+function celebrate(){if(lastXY)burst(lastXY[0],lastXY[1],st.streak>=3?46:26)}
+
+/* ----- Démarrage (conserve l'état si la page est republiée) ----- */
+function boot(saved){
+  if(saved&&saved.ans)st=Object.assign(st,saved);
+  if(st.started){$('#welcome').hidden=true;$('#activity').hidden=false;if(st.done)results();else render()}
+}
+const hot=window.claude&&window.claude.hot;
+if(hot&&hot.snapshot)hot.snapshot(()=>st);
+if(hot&&hot.ready)hot.ready(boot);else boot((hot&&hot.data)||{});
+</script>
+</body>
+</html>
