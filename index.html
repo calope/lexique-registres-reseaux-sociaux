@@ -268,7 +268,7 @@ const Q=[
  {s:0,t:'single',kind:'QUIZ',title:"La grammaire du familier",
   scene:[{k:'post',name:"Noa",handle:"@noa_dsn · TikTok",text:"Frérot j’étais en mode choqué, y avait personne à mon live 😭 j’ai trop le seum"}],
   prompt:"Quels indices signalent ici le registre familier ?",
-  opts:["Le passé simple et l’inversion du sujet.","Le vouvoiement et les formules de politesse.","Le lexique (« frérot », « avoir le seum »), le tic « en mode » et la syntaxe : « y avait personne », sans « il » ni « ne »."],right:2,
+  opts:["Le passé simple (« j’étais »), l’inversion du sujet et l’emploi de « personne » comme nom.","Le vouvoiement, les formules de politesse (« frérot ») et la négation complète « ne… personne ».","Le lexique (« frérot », « avoir le seum »), le tic « en mode » et la syntaxe : « y avait personne », sans « il » ni « ne »."],right:2,
   explain:"Le registre familier ne tient pas qu’au vocabulaire. « Avoir le seum » signifie être dégoûté ou frustré ; « en mode » introduit une attitude. Côté syntaxe, « il n’y avait personne » devient « y avait personne ». En registre courant : « J’étais choqué : il n’y avait personne à mon direct, je suis vraiment déçu. »"},
 
  /* ---------- REGISTRE COURANT ---------- */
@@ -303,7 +303,7 @@ const Q=[
   scene:[{k:'note',text:"Sur TikTok, un jeu consiste à « traduire » le parler jeune en langage soutenu, pour rire."},{k:'comments',net:"Phrase à traduire",list:[["leo.mrt","J’ai le seum, je me suis fait ghoster."]]}],
   prompt:"Quelle est la « traduction » en registre soutenu ?",
   opts:["J’en conçois une vive amertume : mes messages sont demeurés sans réponse.","Je suis dégoûté, il ne me répond plus.","Trop la haine, il m’a mis un vent."],right:0,
-  explain:"Le comique naît du décalage : un contenu banal dans une forme solennelle. Le registre soutenu se reconnaît à son lexique rare (« concevoir de l’amertume », « demeurer ») et à ses phrases construites. La deuxième option est en registre courant ; la troisième reste familière (« mettre un vent » = ignorer quelqu’un)."},
+  explain:"Le comique naît du décalage : un contenu banal dans une forme solennelle. Le registre soutenu se reconnaît à son lexique rare (« concevoir de l’amertume », « demeurer ») et à ses phrases construites. « Se faire ghoster » (de l’anglais « ghost », fantôme) signifie être ignoré du jour au lendemain. La deuxième option est en registre courant ; la troisième reste familière (« mettre un vent » = ignorer quelqu’un)."},
  {s:2,t:'single',kind:'QUIZ',title:"Le communiqué du youtubeur",
   scene:[{k:'post',name:"Maxou",handle:"@maxou_gaming · YouTube, onglet Communauté",text:"Je tiens à présenter mes plus sincères excuses à celles et ceux que mes propos ont pu heurter. Je mesure pleinement la portée de mes paroles."},{k:'note',text:"D’habitude, ce créateur (fictif) commence ses vidéos par « Wesh la mif, bien ou quoi ? »."}],
   prompt:"Pourquoi abandonne-t-il son registre habituel ?",
@@ -312,13 +312,13 @@ const Q=[
  {s:2,t:'single',kind:'QUIZ',title:"Les marques du soutenu",
   scene:[{k:'post',name:"Bibliothèque universitaire",handle:"@bu_campus · Instagram",text:"Nous vous saurions gré de bien vouloir signaler tout commentaire injurieux. Nous vous remercions de votre vigilance."}],
   prompt:"Quels indices signalent ici le registre soutenu ?",
-  opts:["Les abréviations et les émojis.","Le verlan et les anglicismes.","La locution « savoir gré », le conditionnel de politesse et le vouvoiement."],right:2,
+  opts:["Les abréviations et les émojis, qui rendent le message plus chaleureux et plus direct.","Le verlan et les anglicismes, très présents dans les publications Instagram.","La locution « savoir gré », le conditionnel de politesse et le vouvoiement."],right:2,
   explain:"« Savoir gré à quelqu’un de quelque chose » (lui en être reconnaissant) est une locution du registre soutenu ; elle se conjugue avec « savoir » : « nous vous saurions gré », et non « nous vous serions gré ». Le conditionnel et « bien vouloir » adoucissent la demande. En registre courant : « Merci de signaler les commentaires injurieux. »"},
  {s:2,t:'single',kind:'QUIZ · DÉCISION',title:"Écrire à sa professeure",
   scene:[{k:'chat',name:"Brouillon de message",net:"Message privé",m:[['me',"Slt, jpeux rendre le devoir + tard ? Jsuis sous l’eau en ce moment 🙏"]]},{k:'note',text:"Problème : ce message est destiné à votre professeure, Mme Durand."}],
   prompt:"Quelle version relève du registre soutenu, le plus adapté à cette destinataire ?",
-  opts:["Wesh Madame, un petit délai pour le devoir svp 🙏","Bonjour Madame, vous serait-il possible de m’accorder un délai supplémentaire pour la remise du devoir ? Je vous remercie par avance de votre compréhension. Bien cordialement.","Bonjour, est-ce que je peux rendre le devoir plus tard ? Merci !"],right:1,
-  explain:"« Être sous l’eau » (être débordé) et les abréviations conviennent entre amis. La troisième option, en registre courant, est correcte mais un peu directe. Le registre soutenu ajoute une formule d’appel, le vouvoiement, une demande au conditionnel (« vous serait-il possible… ») et une formule de politesse finale."},
+  opts:["Wesh Madame, un petit délai pour le devoir svp 🙏","Bonjour Madame, vous serait-il possible de m’accorder un délai supplémentaire pour la remise du devoir ? Je vous remercie par avance de votre compréhension. Veuillez agréer, Madame, l’expression de mes salutations respectueuses.","Bonjour, est-ce que je peux rendre le devoir plus tard ? Merci !"],right:1,
+  explain:"« Être sous l’eau » (être débordé) et les abréviations conviennent entre amis. La troisième option, en registre courant, est correcte mais un peu directe. Le registre soutenu ajoute une formule d’appel, le vouvoiement, une demande au conditionnel (« vous serait-il possible… ») et une formule de politesse finale développée (« Veuillez agréer… »), plus solennelle que « Cordialement »."},
  {s:2,t:'single',kind:'QUIZ · DÉFI FINAL',title:"Le grand défi final : à chaque public son registre",
   scene:[{k:'note',text:"Une association étudiante annonce sa soirée de rentrée à trois publics différents."},{k:'note',text:"Message 1 : « L’association organise sa soirée de rentrée vendredi à 20 h. Inscrivez-vous grâce au lien en bio ! »\n\nMessage 2 : « Nous avons l’honneur de vous convier à la soirée de rentrée de l’association, qui se tiendra vendredi à 20 heures. »\n\nMessage 3 : « Soirée de l’asso vendredi, ça va être une dinguerie, ramenez-vous la mif 🔥 »"}],
   prompt:"Quel classement est correct ?",
@@ -491,7 +491,10 @@ function boot(saved){
 }
 const hot=window.claude&&window.claude.hot;
 if(hot&&hot.snapshot)hot.snapshot(()=>st);
-if(hot&&hot.ready)hot.ready(boot);else boot((hot&&hot.data)||{});
+const KEY='lexique-registres-v1';
+let local={};try{local=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+addEventListener('click',()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}});
+if(hot&&hot.ready)hot.ready(d=>boot(d&&d.ans?d:local));else boot((hot&&hot.data&&hot.data.ans)?hot.data:local);
 </script>
 </body>
 </html>
